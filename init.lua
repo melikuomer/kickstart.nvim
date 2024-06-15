@@ -90,6 +90,7 @@ P.S. You can delete this when you're done too. It's your config now! :)
 vim.g.mapleader = ' '
 vim.g.maplocalleader = ' '
 vim.g.autoformat = false
+vim.g.disable_autoformat = false
 
 -- Set to true if you have a Nerd Font installed and selected in the terminal
 vim.g.have_nerd_font = true
@@ -648,10 +649,13 @@ require('lazy').setup({
         -- Disable "format_on_save lsp_fallback" for languages that don't
         -- have a well standardized coding style. You can add additional
         -- languages here or re-enable it for the disabled ones.
+        if vim.g.disable_autoformat or vim.b[bufnr].disable_autoformat then
+          return
+        end
         local disable_filetypes = { c = true, cpp = true, ts = true }
         return {
           timeout_ms = 500,
-          lsp_fallback = not disable_filetypes[vim.bo[bufnr].filetype],
+          lsp_fallback = false, --not disable_filetypes[vim.bo[bufnr].filetype],
         }
       end,
       formatters_by_ft = {
@@ -895,19 +899,19 @@ require('lazy').setup({
     -- If you are using a Nerd Font: set icons to an empty table which will use the
     -- default lazy.nvim defined Nerd Font icons, otherwise define a unicode icons table
     icons = vim.g.have_nerd_font and {} or {
-      cmd = '⌘',
-      config = '🛠',
-      event = '📅',
-      ft = '📂',
-      init = '⚙',
-      keys = '🗝',
-      plugin = '🔌',
-      runtime = '💻',
-      require = '🌙',
-      source = '📄',
-      start = '🚀',
-      task = '📌',
-      lazy = '💤 ',
+      --     cmd = '⌘',
+      --         config = '🛠',
+      --          event = '📅',
+      --          ft = '📂',
+      --        init = '⚙',
+      --         keys = '🗝',
+      --        plugin = '🔌',
+      --       runtime = '💻',
+      --          require = '🌙',
+      --          source = '📄',
+      --          start = '🚀',
+      --          task = '📌',
+      --         lazy = '💤 ',
     },
   },
 })
