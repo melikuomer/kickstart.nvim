@@ -1,0 +1,26 @@
+return {
+  {
+    'nvim-telescope/telescope.nvim',
+    dependencies = {
+      -- "Myzel394/easytables.nvim",
+      -- "Myzel394/telescope-last-positions",
+      -- Other dependencies
+      -- ..
+      { 'Myzel394/jsonfly.nvim' },
+    },
+    config = function()
+      require('telescope').setup {
+        keys = {
+          {
+            '<leader>j',
+            '<cmd>Telescope jsonfly<cr>',
+            desc = 'Open json(fly)',
+            ft = { 'json', 'xml', 'yaml' },
+            mode = 'n',
+          },
+        },
+      }
+      require('telescope').load_extension 'jsonfly'
+    end,
+  },
+}

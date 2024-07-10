@@ -328,6 +328,16 @@ require('lazy').setup({
 
       -- Useful for getting pretty icons, but requires a Nerd Font.
       { 'nvim-tree/nvim-web-devicons', enabled = vim.g.have_nerd_font },
+      { 'Myzel394/jsonfly.nvim' },
+    },
+    keys = {
+      {
+        '<leader>j',
+        '<cmd>Telescope jsonfly<cr>',
+        desc = 'Open json(fly)',
+        ft = { 'json', 'xml', 'yaml' },
+        mode = 'n',
+      },
     },
     config = function()
       -- Telescope is a fuzzy finder that comes with a lot of different things that
@@ -355,6 +365,7 @@ require('lazy').setup({
         -- You can put your default mappings / updates / etc. in here
         --  All the info you're looking for is in `:help telescope.setup()`
         --
+
         -- defaults = {
         --   mappings = {
         --     i = { ['<c-enter>'] = 'to_fuzzy_refine' },
@@ -367,7 +378,7 @@ require('lazy').setup({
           },
         },
       }
-
+      pcall(require('telescope').load_extension, 'jsonfly')
       -- Enable Telescope extensions if they are installed
       pcall(require('telescope').load_extension, 'fzf')
       pcall(require('telescope').load_extension, 'ui-select')
@@ -428,7 +439,15 @@ require('lazy').setup({
     },
     config = function()
       -- Brief aside: **What is LSP?**
-      --
+      vim.api.nvim_exec(
+        [[
+        augroup RpyFiletype
+          autocmd!
+          autocmd BufRead,BufNewFile *.rpy set filetype=python
+        augroup END
+      ]],
+        false
+      )
       -- LSP is an initialism you've probably heard, but might not understand what it is.
       --
       -- LSP stands for Language Server Protocol. It's a protocol that helps editors
@@ -578,7 +597,9 @@ require('lazy').setup({
         -- But for many setups, the LSP (`tsserver`) will work just fine
         --tsserver = {},
         --
-
+        angularls = {
+          cmd = { 'C:/Users/Spencx/AppData/Roaming/npm/node_modules/@angular/language-server/index.js', '--stdio' },
+        },
         lua_ls = {
           -- cmd = {...},
           -- filetypes = { ...},
@@ -881,12 +902,12 @@ require('lazy').setup({
   --  Here are some example plugins that I've included in the Kickstart repository.
   --  Uncomment any of the lines below to enable them (you will need to restart nvim).
   --
-  -- require 'kickstart.plugins.debug',
-  -- require 'kickstart.plugins.indent_line',
-  -- require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
-  -- require 'kickstart.plugins.neo-tree',
-  -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
+  require 'kickstart.plugins.debug',
+  require 'kickstart.plugins.indent_line',
+  require 'kickstart.plugins.lint',
+  require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.neo-tree',
+  require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
   -- NOTE: The import below can automatically add your own plugins, configuration, etc from `lua/custom/plugins/*.lua`
   --    This is the easiest way to modularize your config.
